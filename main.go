@@ -517,6 +517,19 @@ func (s *DB) CreateTable(models ...interface{}) *DB {
 	return db
 }
 
+// TruncateTable truncates table for models
+func (s *DB) TruncateTable(values ...interface{}) *DB {
+	db := s.clone()
+	for _, value := range values {
+		if tableName, ok := value.(string); ok {
+			db = db.Table(tableName)
+		}
+
+		db = db.NewScope(value).truncateTable().db
+	}
+	return db
+}
+
 // DropTable drop table for models
 func (s *DB) DropTable(values ...interface{}) *DB {
 	db := s.clone()

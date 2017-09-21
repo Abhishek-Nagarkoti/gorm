@@ -1138,6 +1138,11 @@ func (scope *Scope) dropTable() *Scope {
 	return scope
 }
 
+func (scope *Scope) truncateTable() *Scope {
+	scope.Raw(fmt.Sprintf("TRUNCATE TABLE %v", scope.QuotedTableName())).Exec()
+	return scope
+}
+
 func (scope *Scope) modifyColumn(column string, typ string) {
 	scope.Raw(fmt.Sprintf("ALTER TABLE %v MODIFY %v %v", scope.QuotedTableName(), scope.Quote(column), typ)).Exec()
 }
